@@ -1,0 +1,91 @@
+// INFO BEGIN
+//
+// User = 201911511316(赵俊楠) 
+// Group = PYTHON 
+// Problem = 化学方程式 
+// Language = PYTHON 
+// SubmitTime = 2019-12-15 16:15:22 
+//
+// INFO END
+
+import re
+n = int(input())
+def pro_str(ss):
+	num1 = 1
+	ret = re.match('[0-9]*',ss)
+	if ret.span()[1] != 0:
+		num1 = int(ret.group())
+		ss = ss[ret.span()[1]:]
+	#（）
+	ret2 = re.search('[(].*[)]',ss)
+	result2 = {}
+	if ret2 != None:
+		result2 = pro_str(ret2.group()[1:-1])
+		num2 = 1
+		if  len(ss) >= ret2.span()[1] and re.match('[0-9]*',ss[ret2.span()[1]:]).span()[1] != 0:
+			num2 = int(re.match('[0123456789]*',ss[ret2.span()[1]:]).group())
+		for k in result2.keys():
+			result2[k] *= num2
+		ss = ss[:ret2.span()[0]]
+		#print(result2)
+	ress = re.findall('[A-Z][a-z]',ss)
+	aess = re.findall('[A-Z]',ss)
+	for i in ress:
+		x = i[0]
+		aess.remove(x)
+	ress.extend(aess)
+	result3 = {}
+	#print(ress)
+	for i in ress:
+		sss = 1
+		ret3 = re.search(i,ss)
+		ret4 = re.match('[0-9]*',ss[ret3.span()[1]:])
+		if ret4.span()[1] != 0:
+			num3 = int(ret4.group())
+			sss *= num3
+		if i in result3.keys():
+			result3[i] += sss
+		else:
+			result3[i] = sss
+	for i in result2.keys():
+		if i not in result3.keys():
+			result3[i] = result2[i]
+		else:
+			result3[i] += result2[i]
+	for i in result3.keys():
+		result3[i] *= num1
+	#print(result3)
+	return result3
+	
+	
+for i in range(n):
+	ss = input()
+	left,right = ss.split('=')
+	left = left.split('+')
+	right = right.split('+')
+	left_map = {}
+	right_map = {}
+	for i in left:
+		result = pro_str(i)
+		for k in result.keys():
+			if k not in left_map.keys():
+				left_map[k] = result[k]
+			else:
+				left_map[k] += result[k]
+	for i in right:
+		result = pro_str(i)
+		for k in result.keys():
+			if k not in right_map.keys():
+				right_map[k] = result[k]
+			else:
+				right_map[k] += result[k]
+	#print(left_map)
+	#print(right_map)
+	flag = 'Y'
+	if len(left_map.keys()) != len(right_map.keys()):
+		flag = 'N'
+	else:
+		for i in left_map.keys():
+			if i not in right_map.keys() or left_map[i] != right_map[i]:
+				flag = 'N'
+	print(flag)

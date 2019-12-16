@@ -1,0 +1,23 @@
+// INFO BEGIN
+//
+// User = 201911511316(ÕÔ¿¡éª) 
+// Group = PYTHON 
+// Problem = ±¨Êý 
+// Language = PYTHON 
+// SubmitTime = 2019-12-15 13:39:20 
+//
+// INFO END
+
+n = int(input())
+x = 1
+count = 0
+ss = [0,0,0,0]
+while(count<n):
+	if x % 7 == 0 or '7' in str(x):
+		ss[(x-1)%4] += 1
+		x += 1	
+	else:		
+		x += 1
+		count += 1
+for i in ss:
+	print(i)

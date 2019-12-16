@@ -1,0 +1,40 @@
+// INFO BEGIN
+//
+// User = 201911511316(’‘ø°È™) 
+// Group = PYTHON 
+// Problem = ªÿ ’’æ—°÷∑ 
+// Language = PYTHON 
+// SubmitTime = 2019-12-15 14:10:57 
+//
+// INFO END
+
+lj = {}
+n = int(input())
+ljj = []
+add = [(1,0),(-1,0),(0,-1),(0,1)]
+ass = [(1,1),(1,-1),(-1,-1),(-1,1)]
+for i in range(n):
+	x,y = list(map(int,input().split()))
+	ljj.append((x,y))
+	if x not in lj.keys():
+		lj[x] = {}
+		lj[x][y] = 0
+	elif y not in lj[x].keys():
+		lj[x][y] = 0
+result = [0]*5
+for xx in ljj:
+	for dd in add:
+		x1,y1 = xx[0]+dd[0],xx[1]+dd[1]
+		if x1 in lj.keys():
+			if y1 in lj[x1].keys():
+				lj[xx[0]][xx[1]] += 1
+	if lj[xx[0]][xx[1]] == 4:
+		aa = 0
+		for dd in ass:
+			x1,y1 = xx[0]+dd[0],xx[1]+dd[1]
+			if x1 in lj.keys():
+				if y1 in lj[x1].keys():
+					aa += 1
+		result[aa] += 1
+for i in result:
+	print(i)
